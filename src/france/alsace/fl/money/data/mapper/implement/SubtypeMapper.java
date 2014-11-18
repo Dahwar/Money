@@ -39,8 +39,6 @@ public class SubtypeMapper implements IMapper<Subtype> {
                 subtype.setType(null);
             }
             
-            rs.close();
-            
         } catch (SQLException | NoSuchFieldException | SecurityException ex) {
             Logger.getLogger(SubtypeMapper.class.getName()).log(Level.SEVERE, null, ex);
         }

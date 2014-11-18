@@ -55,8 +55,6 @@ public class OperationMapper implements IMapper<Operation> {
                 operation.setSubtype(null);
             }
             
-            rs.close();
-            
         } catch (SQLException | ParseException | NoSuchFieldException | SecurityException ex) {
             Logger.getLogger(OperationMapper.class.getName()).log(Level.SEVERE, null, ex);
         }

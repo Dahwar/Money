@@ -28,8 +28,6 @@ public class BankMapper implements IMapper<Bank> {
             bank.setAddress(rs.getString("bnk_address"));
             bank.setComment(rs.getString("bnk_comment"));
             
-            rs.close();
-            
         } catch (SQLException ex) {
             Logger.getLogger(BankMapper.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -5,12 +5,18 @@
  */
 package france.alsace.fl.money.data.dao.implement;
 
+import france.alsace.fl.money.data.component.AutoOperation;
 import france.alsace.fl.money.data.component.Bank;
 import france.alsace.fl.money.data.dao.IBankDAO;
 import france.alsace.fl.money.data.mapper.factory.MapperFactory;
 import france.alsace.fl.money.data.utils.RequestBuilder;
 import france.alsace.fl.money.data.utils.RequestExecutor;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -40,8 +46,58 @@ public class BankDAO implements IBankDAO {
         rb.setParameter("bnk_id", id);
         
         ResultSet rs = RequestExecutor.executeQuery(rb.toString());
-        
-        return (Bank) MapperFactory.getMapper(Bank.class).map(rs);
+        Bank bank = (Bank) MapperFactory.getMapper(Bank.class).map(rs);
+        try {
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(BankDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
+        return bank;
+    }
+
+    @Override
+    public List<Bank> getAll() {
+        List<Bank> list = new ArrayList<>();
+        
+        RequestBuilder rb = new RequestBuilder();
+        rb.append("SELECT bnk_id, bnk_name, bnk_address, bnk_comment from bank;");
+        
+        ResultSet rs = RequestExecutor.executeQuery(rb.toString());
+        
+        try {
+            while(rs.next()) {
+                list.add((Bank) MapperFactory.getMapper(Bank.class).map(rs));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return list;
+    }
+
+    @Override
+    public List<Bank> getAll(int number, int offset) {
+        List<Bank> list = new ArrayList<>();
+        
+        RequestBuilder rb = new RequestBuilder();
+        rb.append("SELECT bnk_id, bnk_name, bnk_address, bnk_comment from bank "
+                + "LIMIT :count OFFSET :skip;");
+        rb.setParameter("count", number);
+        rb.setParameter("skip", offset);
+        
+        ResultSet rs = RequestExecutor.executeQuery(rb.toString());
+        
+        try {
+            while(rs.next()) {
+                list.add((Bank) MapperFactory.getMapper(Bank.class).map(rs));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Bank.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return list;
     }
 }

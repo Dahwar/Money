@@ -89,6 +89,14 @@ public class Money extends Application {
         bankService.save(bank);
         System.out.println(bankService.findById(1));
         
+        System.out.println("\nGet all bank : ");
+        for(Bank b : bankService.getAll()) { System.out.println(b); }
+        System.out.println("Get all bank (10,0) : ");
+        for(Bank b : bankService.getAll(10,0)) { System.out.println(b); }
+        System.out.println("Get all bank (10,1) : ");
+        for(Bank b : bankService.getAll(10,1)) { System.out.println(b); }
+        System.out.println("\n");
+        
         // create Account
         Account account = new Account();
         account.setNumber("70053454656");
@@ -102,12 +110,28 @@ public class Money extends Application {
         accountService.save(account);
         System.out.println(accountService.findById(1));
         
+        System.out.println("\nGet all account : ");
+        for(Account a : accountService.getAll()) { System.out.println(a); }
+        System.out.println("Get all account (10,0) : ");
+        for(Account a : accountService.getAll(10,0)) { System.out.println(a); }
+        System.out.println("Get all account (10,1) : ");
+        for(Account a : accountService.getAll(10,1)) { System.out.println(a); }
+        System.out.println("\n");
+        
         // create Type
         Type type = new Type();
         type.setText("Nourriture");
         
         typeService.save(type);
         System.out.println(typeService.findById(1));
+        
+        System.out.println("\nGet all type : ");
+        for(Type t : typeService.getAll()) { System.out.println(t); }
+        System.out.println("Get all type (10,0) : ");
+        for(Type t : typeService.getAll(10,0)) { System.out.println(t); }
+        System.out.println("Get all type (10,1) : ");
+        for(Type t : typeService.getAll(10,1)) { System.out.println(t); }
+        System.out.println("\n");
         
         // create Subtype
         Subtype subtype = new Subtype();
@@ -116,6 +140,14 @@ public class Money extends Application {
         
         subtypeService.save(subtype);
         System.out.println(subtypeService.findById(1));
+        
+        System.out.println("\nGet all subtype : ");
+        for(Subtype st : subtypeService.getAll()) { System.out.println(st); }
+        System.out.println("Get all subtype (10,0) : ");
+        for(Subtype st : subtypeService.getAll(10,0)) { System.out.println(st); }
+        System.out.println("Get all subtype (10,1) : ");
+        for(Subtype st : subtypeService.getAll(10,1)) { System.out.println(st); }
+        System.out.println("\n");
         
         // create Operation
         Operation operation = new Operation();
@@ -129,6 +161,14 @@ public class Money extends Application {
         operationService.save(operation);
         System.out.println(operationService.findById(1));
         
+        System.out.println("\nGet all operation : ");
+        for(Operation o : operationService.getAll()) { System.out.println(o); }
+        System.out.println("Get all operation (10,0) : ");
+        for(Operation o : operationService.getAll(10,0)) { System.out.println(o); }
+        System.out.println("Get all operation (10,1) : ");
+        for(Operation o : operationService.getAll(10,1)) { System.out.println(o); }
+        System.out.println("\n");
+        
         // create AutoOperation
         AutoOperation autoOperation = new AutoOperation();
         autoOperation.setAmount(40.0);
@@ -141,6 +181,14 @@ public class Money extends Application {
         autoOperationService.save(autoOperation);
         System.out.println(autoOperationService.findById(1));
         
+        System.out.println("\nGet all autoOperation : ");
+        for(AutoOperation ao : autoOperationService.getAll()) { System.out.println(ao); }
+        System.out.println("Get all autoOperation (10,0) : ");
+        for(AutoOperation ao : autoOperationService.getAll(10,0)) { System.out.println(ao); }
+        System.out.println("Get all autoOperation (10,1) : ");
+        for(AutoOperation ao : autoOperationService.getAll(10,1)) { System.out.println(ao); }
+        System.out.println("\n");
+        
         // create period
         Period period = new Period();
         period.setName("Test");
@@ -148,6 +196,15 @@ public class Money extends Application {
         periodService.save(period);
         System.out.println(periodService.findById(7));
         
+        System.out.println("\nGet all period : ");
+        for(Period p : periodService.getAll()) { System.out.println(p); }
+        System.out.println("Get all period (10,0) : ");
+        for(Period p : periodService.getAll(10,0)) { System.out.println(p); }
+        System.out.println("Get all period (10,1) : ");
+        for(Period p : periodService.getAll(10,1)) { System.out.println(p); }
+        System.out.println("\n");
+        
+        // close the connection to database
         DBConnection.close();
             
         System.out.println("End !");

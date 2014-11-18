@@ -9,6 +9,7 @@ import france.alsace.fl.money.core.service.IPeriodService;
 import france.alsace.fl.money.data.component.Period;
 import france.alsace.fl.money.data.dao.IPeriodDAO;
 import france.alsace.fl.money.data.dao.factory.DAOFactory;
+import java.util.List;
 
 /**
  *
@@ -26,6 +27,16 @@ public class PeriodService implements IPeriodService {
     @Override
     public Period findById(int id) {
         return periodDAO.findById(id);
+    }
+
+    @Override
+    public List<Period> getAll() {
+        return periodDAO.getAll();
+    }
+
+    @Override
+    public List<Period> getAll(int number, int offset) {
+        return periodDAO.getAll(number, offset);
     }
     
 }

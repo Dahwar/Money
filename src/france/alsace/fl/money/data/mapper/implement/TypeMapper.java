@@ -25,8 +25,6 @@ public class TypeMapper implements IMapper<Type> {
             type.setId(rs.getInt("typ_id"));
             type.setText(rs.getString("typ_text"));
             
-            rs.close();
-            
         } catch (SQLException ex) {
             Logger.getLogger(TypeMapper.class.getName()).log(Level.SEVERE, null, ex);
         }

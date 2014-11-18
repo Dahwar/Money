@@ -8,9 +8,7 @@ package france.alsace.fl.money.data.mapper.implement;
 import france.alsace.fl.money.core.service.IBankService;
 import france.alsace.fl.money.core.service.factory.ServiceFactory;
 import france.alsace.fl.money.data.component.Account;
-import france.alsace.fl.money.data.component.Bank;
 import france.alsace.fl.money.data.mapper.IMapper;
-import france.alsace.fl.money.data.utils.DBConnection;
 import france.alsace.fl.money.data.utils.annotation.AutoJoin;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,8 +47,6 @@ public class AccountMapper implements IMapper<Account> {
             } else {
                 account.setBank(null);
             }
-            
-            rs.close();
             
         } catch (SQLException | ParseException | NoSuchFieldException | SecurityException ex) {
             Logger.getLogger(AccountMapper.class.getName()).log(Level.SEVERE, null, ex);

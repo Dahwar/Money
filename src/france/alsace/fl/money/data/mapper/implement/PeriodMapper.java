@@ -26,8 +26,6 @@ public class PeriodMapper implements IMapper<Period> {
             period.setId(rs.getInt("per_id"));
             period.setName(rs.getString("per_name"));
             
-            rs.close();
-            
         } catch (SQLException ex) {
             Logger.getLogger(Period.class.getName()).log(Level.SEVERE, null, ex);
         }

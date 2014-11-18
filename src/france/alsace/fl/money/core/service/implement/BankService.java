@@ -9,6 +9,7 @@ import france.alsace.fl.money.core.service.IBankService;
 import france.alsace.fl.money.data.component.Bank;
 import france.alsace.fl.money.data.dao.factory.DAOFactory;
 import france.alsace.fl.money.data.dao.IBankDAO;
+import java.util.List;
 
 /**
  *
@@ -26,6 +27,16 @@ public class BankService implements IBankService {
     @Override
     public Bank findById(int id) {
         return bankDAO.findById(id);
+    }
+
+    @Override
+    public List<Bank> getAll() {
+        return bankDAO.getAll();
+    }
+
+    @Override
+    public List<Bank> getAll(int number, int offset) {
+        return bankDAO.getAll(number, offset);
     }
     
 }

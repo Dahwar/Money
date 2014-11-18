@@ -9,6 +9,7 @@ import france.alsace.fl.money.core.service.ITypeService;
 import france.alsace.fl.money.data.component.Type;
 import france.alsace.fl.money.data.dao.ITypeDAO;
 import france.alsace.fl.money.data.dao.factory.DAOFactory;
+import java.util.List;
 
 /**
  *
@@ -26,6 +27,16 @@ public class TypeService implements ITypeService {
     @Override
     public Type findById(int id) {
         return typeDAO.findById(id);
+    }
+
+    @Override
+    public List<Type> getAll() {
+        return typeDAO.getAll();
+    }
+
+    @Override
+    public List<Type> getAll(int number, int offset) {
+        return typeDAO.getAll(number, offset);
     }
     
 }

@@ -5,6 +5,7 @@
  */
 package france.alsace.fl.money.data.dao.implement;
 
+import france.alsace.fl.money.data.component.Operation;
 import france.alsace.fl.money.data.component.Period;
 import france.alsace.fl.money.data.component.Type;
 import france.alsace.fl.money.data.dao.IPeriodDAO;
@@ -12,6 +13,11 @@ import france.alsace.fl.money.data.mapper.factory.MapperFactory;
 import france.alsace.fl.money.data.utils.RequestBuilder;
 import france.alsace.fl.money.data.utils.RequestExecutor;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -38,8 +44,59 @@ public class PeriodDAO implements IPeriodDAO {
         rb.setParameter("per_id", id);
         
         ResultSet rs = RequestExecutor.executeQuery(rb.toString());
+        Period period = (Period) MapperFactory.getMapper(Period.class).map(rs);
+        try {
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(PeriodDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        return (Period) MapperFactory.getMapper(Period.class).map(rs);
+        return period;
+    }
+
+    @Override
+    public List<Period> getAll() {
+        List<Period> list = new ArrayList<>();
+        
+        RequestBuilder rb = new RequestBuilder();
+        rb.append("SELECT per_id, per_name from period;");
+        
+        ResultSet rs = RequestExecutor.executeQuery(rb.toString());
+        
+        try {
+            while(rs.next()) {
+                list.add((Period) MapperFactory.getMapper(Period.class).map(rs));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Period.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return list;
+    }
+
+    @Override
+    public List<Period> getAll(int number, int offset) {
+        List<Period> list = new ArrayList<>();
+        
+        RequestBuilder rb = new RequestBuilder();
+        rb.append("SELECT per_id, per_name from period "
+                + "LIMIT :count OFFSET :skip;");
+        rb.setParameter("count", number);
+        rb.setParameter("skip", offset);
+        
+        ResultSet rs = RequestExecutor.executeQuery(rb.toString());
+        
+        try {
+            while(rs.next()) {
+                list.add((Period) MapperFactory.getMapper(Period.class).map(rs));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Period.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return list;
     }
     
 }

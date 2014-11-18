@@ -5,6 +5,8 @@
  */
 package france.alsace.fl.money.core.service;
 
+import java.util.List;
+
 /**
  *
  * @author Florent
@@ -12,4 +14,6 @@ package france.alsace.fl.money.core.service;
 public interface IBaseService<T> {
     public boolean save(T t);
     public T findById(int id);
+    public List<T> getAll();
+    public List<T> getAll(int number, int offset);
 }

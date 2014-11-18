@@ -9,6 +9,7 @@ import france.alsace.fl.money.core.service.IAccountService;
 import france.alsace.fl.money.data.component.Account;
 import france.alsace.fl.money.data.dao.IAccountDAO;
 import france.alsace.fl.money.data.dao.factory.DAOFactory;
+import java.util.List;
 
 /**
  *
@@ -26,5 +27,15 @@ public class AccountService implements IAccountService {
     @Override
     public Account findById(int id) {
         return accountDAO.findById(id);
+    }
+
+    @Override
+    public List<Account> getAll() {
+        return accountDAO.getAll();
+    }
+
+    @Override
+    public List<Account> getAll(int number, int offset) {
+        return accountDAO.getAll(number, offset);
     }
 }

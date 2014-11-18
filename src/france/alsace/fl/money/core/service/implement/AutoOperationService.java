@@ -9,6 +9,7 @@ import france.alsace.fl.money.core.service.IAutoOperationService;
 import france.alsace.fl.money.data.component.AutoOperation;
 import france.alsace.fl.money.data.dao.IAutoOperationDAO;
 import france.alsace.fl.money.data.dao.factory.DAOFactory;
+import java.util.List;
 
 /**
  *
@@ -26,6 +27,16 @@ public class AutoOperationService implements IAutoOperationService {
     @Override
     public AutoOperation findById(int id) {
         return autoOperationDAO.findById(id);
+    }
+
+    @Override
+    public List<AutoOperation> getAll() {
+        return autoOperationDAO.getAll();
+    }
+
+    @Override
+    public List<AutoOperation> getAll(int number, int offset) {
+        return autoOperationDAO.getAll(number, offset);
     }
     
 }

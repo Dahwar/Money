@@ -11,7 +11,12 @@ import france.alsace.fl.money.data.mapper.factory.MapperFactory;
 import france.alsace.fl.money.data.utils.RequestBuilder;
 import france.alsace.fl.money.data.utils.RequestExecutor;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -50,8 +55,59 @@ public class AutoOperationDAO implements IAutoOperationDAO {
         rb.setParameter("aop_id", id);
         
         ResultSet rs = RequestExecutor.executeQuery(rb.toString());
+        AutoOperation autoOperation = (AutoOperation) MapperFactory.getMapper(AutoOperation.class).map(rs);
+        try {
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AutoOperationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        return (AutoOperation) MapperFactory.getMapper(AutoOperation.class).map(rs);
+        return autoOperation;
+    }
+
+    @Override
+    public List<AutoOperation> getAll() {
+        List<AutoOperation> list = new ArrayList<>();
+        
+        RequestBuilder rb = new RequestBuilder();
+        rb.append("SELECT aop_id, aop_amount, aop_description, aop_date_action, aop_comment, aop_typ_id, aop_sty_id, aop_per_id from auto_operation;");
+        
+        ResultSet rs = RequestExecutor.executeQuery(rb.toString());
+        
+        try {
+            while(rs.next()) {
+                list.add((AutoOperation) MapperFactory.getMapper(AutoOperation.class).map(rs));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AutoOperation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return list;
+    }
+
+    @Override
+    public List<AutoOperation> getAll(int number, int offset) {
+        List<AutoOperation> list = new ArrayList<>();
+        
+        RequestBuilder rb = new RequestBuilder();
+        rb.append("SELECT aop_id, aop_amount, aop_description, aop_date_action, aop_comment, aop_typ_id, aop_sty_id, aop_per_id from auto_operation "
+                + "LIMIT :count OFFSET :skip;");
+        rb.setParameter("count", number);
+        rb.setParameter("skip", offset);
+        
+        ResultSet rs = RequestExecutor.executeQuery(rb.toString());
+        
+        try {
+            while(rs.next()) {
+                list.add((AutoOperation) MapperFactory.getMapper(AutoOperation.class).map(rs));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return list;
     }
     
 }

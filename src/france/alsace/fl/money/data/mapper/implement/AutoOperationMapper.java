@@ -64,8 +64,6 @@ public class AutoOperationMapper implements IMapper<AutoOperation> {
                 autoOperation.setPeriod(null);
             }
             
-            rs.close();
-            
         } catch (SQLException | ParseException | SecurityException | NoSuchFieldException ex) {
             Logger.getLogger(AutoOperationMapper.class.getName()).log(Level.SEVERE, null, ex);
         } 

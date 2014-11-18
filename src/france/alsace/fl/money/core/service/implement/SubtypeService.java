@@ -10,6 +10,7 @@ import france.alsace.fl.money.core.service.factory.ServiceFactory;
 import france.alsace.fl.money.data.component.Subtype;
 import france.alsace.fl.money.data.dao.ISubtypeDAO;
 import france.alsace.fl.money.data.dao.factory.DAOFactory;
+import java.util.List;
 
 /**
  *
@@ -27,6 +28,16 @@ public class SubtypeService implements ISubtypeService {
     @Override
     public Subtype findById(int id) {
         return subtypeDAO.findById(id);
+    }
+
+    @Override
+    public List<Subtype> getAll() {
+        return subtypeDAO.getAll();
+    }
+
+    @Override
+    public List<Subtype> getAll(int number, int offset) {
+        return subtypeDAO.getAll(number, offset);
     }
     
 }

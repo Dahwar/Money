@@ -11,7 +11,12 @@ import france.alsace.fl.money.data.mapper.factory.MapperFactory;
 import france.alsace.fl.money.data.utils.RequestBuilder;
 import france.alsace.fl.money.data.utils.RequestExecutor;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -50,8 +55,59 @@ public class AccountDAO implements IAccountDAO {
         rb.setParameter("act_id", id);
         
         ResultSet rs = RequestExecutor.executeQuery(rb.toString());
+        Account account = (Account) MapperFactory.getMapper(Account.class).map(rs);
+        try {
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        return (Account) MapperFactory.getMapper(Account.class).map(rs);
+        return account;
+    }
+
+    @Override
+    public List<Account> getAll() {
+        List<Account> list = new ArrayList<>();
+        
+        RequestBuilder rb = new RequestBuilder();
+        rb.append("SELECT act_id, act_number, act_name, act_bnk_id, act_owner, act_amount, act_creation_date, act_comment, act_open from account;");
+
+        ResultSet rs = RequestExecutor.executeQuery(rb.toString());
+        
+        try {
+            while(rs.next()) {
+                list.add((Account) MapperFactory.getMapper(Account.class).map(rs));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return list;
+    }
+
+    @Override
+    public List<Account> getAll(int number, int offset) {
+        List<Account> list = new ArrayList<>();
+        
+        RequestBuilder rb = new RequestBuilder();
+        rb.append("SELECT act_id, act_number, act_name, act_bnk_id, act_owner, act_amount, act_creation_date, act_comment, act_open from account "
+                + "LIMIT :count OFFSET :skip;");
+        rb.setParameter("count", number);
+        rb.setParameter("skip", offset);
+        
+        ResultSet rs = RequestExecutor.executeQuery(rb.toString());
+        
+        try {
+            while(rs.next()) {
+                list.add((Account) MapperFactory.getMapper(Account.class).map(rs));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(AccountDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return list;
     }
     
 }

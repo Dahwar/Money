@@ -5,13 +5,19 @@
  */
 package france.alsace.fl.money.data.dao.implement;
 
+import france.alsace.fl.money.data.component.Bank;
 import france.alsace.fl.money.data.component.Operation;
 import france.alsace.fl.money.data.dao.IOperationDAO;
 import france.alsace.fl.money.data.mapper.factory.MapperFactory;
 import france.alsace.fl.money.data.utils.RequestBuilder;
 import france.alsace.fl.money.data.utils.RequestExecutor;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -50,8 +56,59 @@ public class OperationDAO implements IOperationDAO {
         rb.setParameter("ope_id", id);
         
         ResultSet rs = RequestExecutor.executeQuery(rb.toString());
+        Operation operation = (Operation) MapperFactory.getMapper(Operation.class).map(rs);
+        try {
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(OperationDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        return (Operation) MapperFactory.getMapper(Operation.class).map(rs);
+        return operation;
+    }
+
+    @Override
+    public List<Operation> getAll() {
+        List<Operation> list = new ArrayList<>();
+        
+        RequestBuilder rb = new RequestBuilder();
+        rb.append("SELECT ope_id, ope_amount, ope_description, ope_date, ope_comment, ope_check, ope_typ_id, ope_sty_id from operation;");
+        
+        ResultSet rs = RequestExecutor.executeQuery(rb.toString());
+        
+        try {
+            while(rs.next()) {
+                list.add((Operation) MapperFactory.getMapper(Operation.class).map(rs));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Operation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return list;
+    }
+
+    @Override
+    public List<Operation> getAll(int number, int offset) {
+        List<Operation> list = new ArrayList<>();
+        
+        RequestBuilder rb = new RequestBuilder();
+        rb.append("SELECT ope_id, ope_amount, ope_description, ope_date, ope_comment, ope_check, ope_typ_id, ope_sty_id from operation "
+                + "LIMIT :count OFFSET :skip;");
+        rb.setParameter("count", number);
+        rb.setParameter("skip", offset);
+        
+        ResultSet rs = RequestExecutor.executeQuery(rb.toString());
+        
+        try {
+            while(rs.next()) {
+                list.add((Operation) MapperFactory.getMapper(Operation.class).map(rs));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Operation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return list;
     }
     
 }
